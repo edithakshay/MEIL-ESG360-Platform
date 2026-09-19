@@ -6,6 +6,8 @@
  * OpenAPI spec version: 0.2.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface NamedCode {
+  id: string;
+  name: string;
+  code: string;
 }

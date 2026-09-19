@@ -6,6 +6,12 @@
  * OpenAPI spec version: 0.2.0
  */
 
-export interface HealthStatus {
+export interface Project {
+  id: string;
+  code: string;
+  name: string;
+  state: string;
+  city: string;
   status: string;
+  businessUnit: string;
 }

@@ -5,7 +5,9 @@
  * MEIL ESG360 contract-first API
  * OpenAPI spec version: 0.2.0
  */
+import type { AuthUser } from './authUser';
 
-export interface HealthStatus {
-  status: string;
+export interface AuthResponse {
+  user: AuthUser;
+  roles: string[];
 }

@@ -6,6 +6,9 @@
  * OpenAPI spec version: 0.2.0
  */
 
-export interface HealthStatus {
+export interface ReportingPeriod {
+  id: string;
+  label: string;
+  boundary: string;
   status: string;
 }

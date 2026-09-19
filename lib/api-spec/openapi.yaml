@@ -1,22 +1,22 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
-  description: API specification
+  version: 0.2.0
+  description: MEIL ESG360 contract-first API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
-    description: Health operations
+  - name: auth
+  - name: dashboard
+  - name: esg
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +24,354 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginBody"
+      responses:
+        "200":
+          description: Signed-in user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      responses:
+        "204":
+          description: Logged out
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [auth]
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      responses:
+        "200":
+          description: ESG dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dashboard"
+  /organization-context:
+    get:
+      operationId: getOrganizationContext
+      tags: [dashboard]
+      responses:
+        "200":
+          description: Current organization context
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationContext"
+  /projects:
+    get:
+      operationId: listProjects
+      tags: [dashboard]
+      responses:
+        "200":
+          description: Accessible projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+  /metrics:
+    get:
+      operationId: listMetrics
+      tags: [esg]
+      responses:
+        "200":
+          description: Active ESG metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Metric"
+  /metric-values:
+    get:
+      operationId: listMetricValues
+      tags: [esg]
+      parameters:
+        - name: projectId
+          in: query
+          schema:
+            type: string
+        - name: reportingPeriodId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Metric values
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MetricValue"
+    post:
+      operationId: createMetricValue
+      tags: [esg]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMetricValueBody"
+      responses:
+        "201":
+          description: Created metric value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetricValue"
+  /metric-values/{id}/submit:
+    post:
+      operationId: submitMetricValue
+      tags: [esg]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Submitted metric value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetricValue"
+  /metric-values/{id}/approve:
+    post:
+      operationId: approveMetricValue
+      tags: [esg]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Approved metric value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetricValue"
+  /brsr/readiness:
+    get:
+      operationId: getBrsrReadiness
+      tags: [esg]
+      responses:
+        "200":
+          description: BRSR readiness by section
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrsrReadiness"
+  /audit:
+    get:
+      operationId: listAuditLogs
+      tags: [esg]
+      responses:
+        "200":
+          description: Immutable audit log entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AuditLog"
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
-
+    LoginBody:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+    AuthUser:
+      type: object
+      required: [id, email, displayName]
+      properties:
+        id: { type: string }
+        email: { type: string, format: email }
+        displayName: { type: string }
+    AuthResponse:
+      type: object
+      required: [user, roles]
+      properties:
+        user:
+          $ref: "#/components/schemas/AuthUser"
+        roles:
+          type: array
+          items: { type: string }
+    ReportingPeriod:
+      type: object
+      required: [id, label, boundary, status]
+      properties:
+        id: { type: string }
+        label: { type: string }
+        boundary: { type: string }
+        status: { type: string }
+    DashboardKpis:
+      type: object
+      required: [reportingCompletion, dataQuality, evidenceCoverage, brsrReadiness, pendingSubmissions, pendingApprovals, activeProjects, activeMetrics]
+      properties:
+        reportingCompletion: { type: integer }
+        dataQuality: { type: integer }
+        evidenceCoverage: { type: integer }
+        brsrReadiness: { type: integer }
+        pendingSubmissions: { type: integer }
+        pendingApprovals: { type: integer }
+        activeProjects: { type: integer }
+        activeMetrics: { type: integer }
+    DashboardDimension:
+      type: object
+      required: [label, value, color]
+      properties:
+        label: { type: string }
+        value: { type: integer }
+        color: { type: string }
+    Dashboard:
+      type: object
+      required: [reportingPeriod, kpis, dimensions]
+      properties:
+        reportingPeriod:
+          anyOf:
+            - $ref: "#/components/schemas/ReportingPeriod"
+            - type: "null"
+        kpis:
+          $ref: "#/components/schemas/DashboardKpis"
+        dimensions:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardDimension"
+    OrganizationContext:
+      type: object
+      required: [organization, entity, businessUnit]
+      properties:
+        organization:
+          anyOf:
+            - $ref: "#/components/schemas/NamedCode"
+            - type: "null"
+        entity:
+          anyOf:
+            - $ref: "#/components/schemas/NamedCode"
+            - type: "null"
+        businessUnit:
+          anyOf:
+            - $ref: "#/components/schemas/NamedCode"
+            - type: "null"
+    NamedCode:
+      type: object
+      required: [id, name, code]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        code: { type: string }
+    Project:
+      type: object
+      required: [id, code, name, state, city, status, businessUnit]
+      properties:
+        id: { type: string }
+        code: { type: string }
+        name: { type: string }
+        state: { type: string }
+        city: { type: string }
+        status: { type: string }
+        businessUnit: { type: string }
+    Metric:
+      type: object
+      required: [id, code, name, dimension, category, unit, requiredEvidence]
+      properties:
+        id: { type: string }
+        code: { type: string }
+        name: { type: string }
+        dimension: { type: string }
+        category: { type: string }
+        unit: { type: string }
+        requiredEvidence: { type: boolean }
+        description: { type: string }
+    MetricValue:
+      type: object
+      required: [id, metricId, metricName, unit, status, validationStatus, applicability]
+      properties:
+        id: { type: string }
+        metricId: { type: string }
+        metricName: { type: string }
+        projectId: { type: string, nullable: true }
+        projectName: { type: string, nullable: true }
+        reportingPeriodId: { type: string }
+        value: { type: number, nullable: true }
+        unit: { type: string }
+        status: { type: string }
+        validationStatus: { type: string }
+        validationMessage: { type: string, nullable: true }
+        applicability: { type: string }
+    CreateMetricValueBody:
+      type: object
+      required: [metricId, reportingPeriodId, projectId, value, unit]
+      properties:
+        metricId: { type: string }
+        reportingPeriodId: { type: string }
+        projectId: { type: string }
+        value: { type: number }
+        unit: { type: string }
+        applicability: { type: string }
+        notApplicableReason: { type: string }
+    BrsrReadiness:
+      type: object
+      required: [overall, sections]
+      properties:
+        overall: { type: integer }
+        sections:
+          type: array
+          items:
+            type: object
+            required: [section, completed, total, label]
+            properties:
+              section: { type: string }
+              label: { type: string }
+              completed: { type: integer }
+              total: { type: integer }
+    AuditLog:
+      type: object
+      required: [id, action, entityType, createdAt]
+      properties:
+        id: { type: string }
+        action: { type: string }
+        entityType: { type: string }
+        entityId: { type: string, nullable: true }
+        reason: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
