@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 
 import { modules as discoveredModules } from "./.generated/mockup-components";
+import { GovernancePage } from "./GovernancePage";
 
 type ModuleMap = Record<string, () => Promise<Record<string, unknown>>>;
 
@@ -66,7 +67,7 @@ function PreviewRenderer({ componentPath, modules }: { componentPath: string; mo
   return Component ? <Component /> : null;
 }
 
-type Page = "dashboard" | "collection" | "review" | "evidence" | "brsr" | "reports" | "admin";
+type Page = "dashboard" | "collection" | "review" | "evidence" | "brsr" | "reports" | "governance" | "admin";
 type User = { id: string; email: string; displayName: string };
 type Auth = { user: User; roles: string[] };
 type Project = { id: string; code: string; name: string; state: string; city: string; status: string; businessUnit: string };
@@ -323,7 +324,7 @@ function AppShell({ auth, onLogout }: { auth: Auth; onLogout: () => void }) {
   }
   useEffect(() => { void refresh(); }, []);
 
-  const pageTitle = { dashboard: "Command center", collection: "Data collection", review: "Review queue", evidence: "Evidence library", brsr: "BRSR workspace", reports: "Reports & lineage", admin: "Administration" }[page];
+  const pageTitle = { dashboard: "Command center", collection: "Data collection", review: "Review queue", evidence: "Evidence library", brsr: "BRSR workspace", reports: "Reports & lineage", governance: "Governance & assurance", admin: "Administration" }[page];
   const nav = [
     { id: "dashboard" as Page, label: "Dashboard", icon: LayoutDashboard },
     { id: "collection" as Page, label: "ESG data", icon: Database },
@@ -331,11 +332,12 @@ function AppShell({ auth, onLogout }: { auth: Auth; onLogout: () => void }) {
     { id: "evidence" as Page, label: "Evidence", icon: FolderOpen, count: evidence.length },
     { id: "brsr" as Page, label: "BRSR reporting", icon: BookOpenCheck },
     { id: "reports" as Page, label: "Assurance & reports", icon: FileCheck2 },
+    { id: "governance" as Page, label: "Governance", icon: ShieldCheck },
     { id: "admin" as Page, label: "Administration", icon: ShieldCheck },
   ];
   return <div className={`app-shell ${collapsed ? "sidebar-collapsed" : ""}`}>
     <aside className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}><div className="sidebar-header"><div className="brand-mark small">M</div><div className="brand-copy"><strong>MEIL <span>ESG360</span></strong><small>Enterprise workspace</small></div><button className="sidebar-collapse" onClick={() => setCollapsed(!collapsed)}><PanelLeftClose size={17} /></button></div><div className="workspace-switcher"><span className="workspace-logo">MG</span><span><strong>MEIL Group Demo</strong><small>Consolidated view</small></span><ChevronDown size={15} /></div><nav>{nav.map((item) => <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => { setPage(item.id); setMobileOpen(false); }}><item.icon size={18} /><span>{item.label}</span>{item.count ? <b>{item.count}</b> : null}</button>)}</nav><div className="sidebar-bottom"><div className="help-row"><LifeBuoy size={17} /><span>Need help?</span></div><button className="logout-button" onClick={onLogout}><LogOut size={17} /><span>Sign out</span></button><div className="profile-row"><div className="avatar">PN</div><span><strong>{auth.user.displayName}</strong><small>{auth.roles[0] ?? "Member"}</small></span></div></div></aside>
-    <div className="app-main"><header className="topbar"><button className="mobile-menu" onClick={() => setMobileOpen(!mobileOpen)}><Menu size={20} /></button><div className="breadcrumbs"><span>MEIL ESG360</span><ArrowRight size={13} /><strong>{pageTitle}</strong></div><div className="topbar-actions"><button className="search-button"><Search size={17} /><span>Search</span><kbd>⌘ K</kbd></button><button className="icon-button notification-button"><Bell size={18} /><span className="notification-dot" /></button><div className="top-avatar">PN</div></div></header><main>{page === "dashboard" && <DashboardPage dashboard={dashboard} projects={projects} values={values} readiness={readiness} onNavigate={setPage} />}{page === "collection" && <CollectionPage periods={periods} projects={projects} metrics={metrics} values={values} onSaved={() => void refresh()} notify={notify} />}{page === "review" && <ReviewPage values={values} onUpdated={() => void refresh()} notify={notify} />}{page === "evidence" && <EvidencePage evidence={evidence} onRefresh={() => void refresh()} />}{page === "brsr" && <BrsrPage questions={questions} onRefresh={() => void refresh()} notify={notify} />}{page === "reports" && <ReportsPage values={values} notify={notify} />}{page === "admin" && <AdminPage auth={auth} projects={projects} metrics={metrics} periods={periods} />}</main></div>
+     <div className="app-main"><header className="topbar"><button className="mobile-menu" onClick={() => setMobileOpen(!mobileOpen)}><Menu size={20} /></button><div className="breadcrumbs"><span>MEIL ESG360</span><ArrowRight size={13} /><strong>{pageTitle}</strong></div><div className="topbar-actions"><button className="search-button"><Search size={17} /><span>Search</span><kbd>⌘ K</kbd></button><button className="icon-button notification-button"><Bell size={18} /><span className="notification-dot" /></button><div className="top-avatar">PN</div></div></header><main>{page === "dashboard" && <DashboardPage dashboard={dashboard} projects={projects} values={values} readiness={readiness} onNavigate={setPage} />}{page === "collection" && <CollectionPage periods={periods} projects={projects} metrics={metrics} values={values} onSaved={() => void refresh()} notify={notify} />}{page === "review" && <ReviewPage values={values} onUpdated={() => void refresh()} notify={notify} />}{page === "evidence" && <EvidencePage evidence={evidence} onRefresh={() => void refresh()} />}{page === "brsr" && <BrsrPage questions={questions} onRefresh={() => void refresh()} notify={notify} />}{page === "reports" && <ReportsPage values={values} notify={notify} />}{page === "governance" && <GovernancePage auth={auth} notify={notify} />}{page === "admin" && <AdminPage auth={auth} projects={projects} metrics={metrics} periods={periods} />}</main></div>
     {toast && <div className="toast"><CheckCircle2 size={17} />{toast}</div>}
   </div>;
 }
