@@ -1,7 +1,7 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import type { NextFunction, Request, Response } from "express";
 import { and, eq, gt } from "drizzle-orm";
-import { db, sessionsTable, usersTable } from "@workspace/db";
+import { db, rolesTable, sessionsTable, userRolesTable, usersTable } from "@workspace/db";
 
 export const SESSION_COOKIE = "esg_session";
 
@@ -54,4 +54,35 @@ export async function requireUser(
     req.log.error({ err: error }, "Authentication lookup failed");
     res.status(500).json({ error: "Unable to verify session" });
   }
+}
+
+export async function getUserRoles(userId: string): Promise<string[]> {
+  const rows = await db
+    .select({ name: rolesTable.name })
+    .from(userRolesTable)
+    .innerJoin(rolesTable, eq(rolesTable.id, userRolesTable.roleId))
+    .where(eq(userRolesTable.userId, userId));
+  return rows.map((row) => row.name);
+}
+
+export function requireRole(...allowedRoles: string[]) {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const user = res.locals.user as typeof usersTable.$inferSelect | undefined;
+      if (!user) {
+        res.status(401).json({ error: "Authentication required" });
+        return;
+      }
+      const roles = await getUserRoles(user.id);
+      if (!roles.some((role) => allowedRoles.includes(role))) {
+        res.status(403).json({ error: "You do not have permission for this action" });
+        return;
+      }
+      res.locals.roles = roles;
+      next();
+    } catch (error) {
+      req.log.error({ err: error }, "Authorization lookup failed");
+      res.status(500).json({ error: "Unable to verify authorization" });
+    }
+  };
 }

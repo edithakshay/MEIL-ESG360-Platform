@@ -27,10 +27,11 @@ import {
   SubmitMetricValueParams,
   SubmitMetricValueResponse,
 } from "@workspace/api-zod";
-import { requireUser } from "../lib/auth";
+import { requireRole, requireUser } from "../lib/auth";
 
 const router: IRouter = Router();
 router.use(requireUser);
+const reviewerRoles = ["Reviewer", "Approver", "Group ESG Admin", "Group ESG Head", "Super Admin"];
 
 function validateValue(value: number, unit: string, expectedUnit: string, rules: Record<string, unknown>) {
   if (unit !== expectedUnit) return { status: "ERROR", message: `Unit must be ${expectedUnit}.` };
@@ -223,7 +224,7 @@ router.post("/metric-values/:id/submit", async (req, res): Promise<void> => {
   }));
 });
 
-router.post("/metric-values/:id/approve", async (req, res): Promise<void> => {
+router.post("/metric-values/:id/approve", requireRole(...reviewerRoles), async (req, res): Promise<void> => {
   const params = ApproveMetricValueParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: params.error.message });

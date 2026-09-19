@@ -1,15 +1,21 @@
-# [Project name]
+# MEIL ESG360
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+MEIL ESG360 is a tenant-aware ESG and BRSR reporting workspace for collecting, validating, reviewing, consolidating, and tracing sustainability data.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port supplied by the artifact workflow)
+- `pnpm --filter @workspace/mockup-sandbox run dev` — run the ESG360 web workspace (port supplied by the artifact workflow)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `DATABASE_URL` — Postgres connection string; `SESSION_SECRET` — signed-session secret
+
+Demo users after the first successful database seed:
+
+- Coordinator: `coordinator@demo.meil-esg360.test` / `Demo!123`
+- Reviewer: `reviewer@demo.meil-esg360.test` / `Demo!123`
 
 ## Stack
 
@@ -22,7 +28,17 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/mockup-sandbox/src/App.tsx` — responsive ESG360 product shell and workflows
+- `artifacts/mockup-sandbox/src/index.css` — product design system and responsive layout
+- `artifacts/api-server/src/routes/esg.ts` — metric library, values, validation, submit/approve, BRSR readiness, audit
+- `artifacts/api-server/src/routes/product.ts` — evidence upload, reviewer actions, consolidation, BRSR workspace, report snapshots, lineage
+- `artifacts/api-server/src/lib/demo-data.ts` — idempotent first-run demo seed
+- `lib/db/src/schema/index.ts` — Drizzle source-of-truth schema
+- `lib/api-spec/openapi.yaml` — contract source for the generated baseline client
+
+## Current product boundary
+
+The delivered functional core covers the complete demo path through login, metric capture, validation, evidence upload, submission, role-gated review, consolidation, BRSR response updates, report dataset generation, and lineage inspection. External object storage, email delivery, SSO/MFA, AI extraction, and the full configurable regulatory/admin catalog remain integration work and are intentionally not represented as fake UI actions.
 
 ## Architecture decisions
 

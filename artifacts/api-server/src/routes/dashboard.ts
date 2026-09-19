@@ -68,6 +68,7 @@ router.get("/organization-context", async (_req, res): Promise<void> => {
 });
 
 router.get("/projects", async (_req, res): Promise<void> => {
+  const user = res.locals.user as typeof import("@workspace/db").usersTable.$inferSelect;
   const rows = await db
     .select({
       id: projectsTable.id,
@@ -80,6 +81,8 @@ router.get("/projects", async (_req, res): Promise<void> => {
     })
     .from(projectsTable)
     .innerJoin(businessUnitsTable, eq(businessUnitsTable.id, projectsTable.businessUnitId))
+    .innerJoin(entitiesTable, eq(entitiesTable.id, businessUnitsTable.entityId))
+    .where(eq(entitiesTable.organizationId, user.organizationId))
     .orderBy(projectsTable.name);
   res.json(ListProjectsResponse.parse(rows));
 });

@@ -89,14 +89,20 @@ export async function seedDemoData(): Promise<void> {
     .returning();
   if (!period) throw new Error("Unable to create demo reporting period");
 
-  const [role] = await db
+  const [coordinatorRole, reviewerRole] = await db
     .insert(rolesTable)
-    .values({
-      name: "Project ESG Coordinator",
-      description: "Collects, validates and submits assigned project ESG data.",
-    })
+    .values([
+      {
+        name: "Project ESG Coordinator",
+        description: "Collects, validates and submits assigned project ESG data.",
+      },
+      {
+        name: "Reviewer",
+        description: "Reviews validated project data and records a traceable decision.",
+      },
+    ])
     .returning();
-  if (!role) throw new Error("Unable to create demo role");
+  if (!coordinatorRole || !reviewerRole) throw new Error("Unable to create demo roles");
 
   const [user] = await db
     .insert(usersTable)
@@ -108,7 +114,17 @@ export async function seedDemoData(): Promise<void> {
     })
     .returning();
   if (!user) throw new Error("Unable to create demo user");
-  await db.insert(userRolesTable).values({ userId: user.id, roleId: role.id });
+  await db.insert(userRolesTable).values({ userId: user.id, roleId: coordinatorRole.id });
+  const [reviewer] = await db
+    .insert(usersTable)
+    .values({
+      organizationId: organization.id,
+      email: "reviewer@demo.meil-esg360.test",
+      displayName: "Arjun Rao",
+      passwordHash: hashPassword("Demo!123"),
+    })
+    .returning();
+  if (reviewer) await db.insert(userRolesTable).values({ userId: reviewer.id, roleId: reviewerRole.id });
 
   const metricRows = await db
     .insert(esgMetricsTable)

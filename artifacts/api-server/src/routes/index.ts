@@ -3,6 +3,7 @@ import healthRouter from "./health";
 import authRouter from "./auth";
 import dashboardRouter from "./dashboard";
 import esgRouter from "./esg";
+import productRouter from "./product";
 
 const router: IRouter = Router();
 
@@ -10,5 +11,6 @@ router.use(healthRouter);
 router.use(authRouter);
 router.use(dashboardRouter);
 router.use(esgRouter);
+router.use(productRouter);
 
 export default router;
