@@ -1,0 +1,3272 @@
+You are acting as a senior enterprise software architect, product engineer, ESG technology architect, data architect, UI/UX designer, DevOps engineer, cybersecurity engineer, and BRSR reporting-domain analyst.
+
+Your task is to design and build a production-grade, enterprise-ready web application for:
+
+MEGHА ENGINEERING AND INFRASTRUCTURES LIMITED (MEIL)
+
+Product working name:
+
+MEIL ESG360
+Enterprise ESG & BRSR Reporting Platform
+
+IMPORTANT:
+
+This is NOT a simple hackathon demo.
+
+Treat this as a real-world enterprise SaaS/product implementation that could eventually be deployed for a large infrastructure group with multiple subsidiaries, business units, projects, sites, employees, contractors, suppliers and geographically distributed operations.
+
+The application must be architected for scalability, security, auditability, traceability, regulatory configuration and long-term maintainability.
+
+Do not build a collection of static dashboard screens.
+
+Build a functional product with:
+
+- authentication
+- role-based access control
+- organization hierarchy
+- ESG data collection
+- workflow
+- approvals
+- evidence management
+- validation
+- calculations
+- consolidation
+- data lineage
+- audit trails
+- BRSR mapping
+- BRSR reporting
+- BRSR Core support
+- SDG mapping
+- analytics
+- report generation
+- notifications
+- administration
+- security
+- database persistence
+- API architecture
+- realistic sample data
+- responsive UI
+
+============================================================
+1. AUTHORITATIVE SOURCE MATERIAL
+============================================================
+
+The following uploaded documents are the primary domain references for this project:
+
+1. Problem Statement 08:
+   Development of an online portal for BRSR reporting of Corporate ESG Reports.
+
+2. Background Material on Sustainability and Business Responsibility and Sustainability Reporting (BRSR), Revised Edition 2024, ICAI/SRSB.
+
+3. FAQs on Business Responsibility and Sustainability Report (BRSR), dated January 2025.
+
+4. SEBI:
+   Business Responsibility & Sustainability Reporting Format
+   Annexure I.
+
+5. SEBI:
+   Guidance Note for Business Responsibility & Sustainability Reporting Format
+   Annexure II.
+
+6. PwC:
+   Business Responsibility and Sustainability Report:
+   An attempt to mainstream ESG.
+
+7. L&T FY2025-26 BRSR report as a real-world large infrastructure-company reference example.
+
+IMPORTANT SOURCE RULE:
+
+Do NOT invent regulatory requirements.
+
+Do NOT assume that a field is legally mandatory unless supported by the provided source material or explicitly marked as configurable.
+
+If a requirement is unclear, implement it as a configurable rule rather than hard-coding an assumption.
+
+Clearly separate:
+
+A. Regulatory requirements
+B. Product features
+C. Recommended enterprise features
+D. AI-assisted features
+E. Future enhancements
+
+The regulatory framework must be represented through configurable metadata wherever practical so that future SEBI/BRSR revisions can be introduced without rewriting the entire application.
+
+============================================================
+2. BUSINESS PROBLEM
+============================================================
+
+MEIL is a large infrastructure group with multiple subsidiaries and approximately 250 projects across India and abroad.
+
+The system must solve the problem of collecting, managing, validating, consolidating and reporting ESG data across a large organizational hierarchy.
+
+The system must support reporting and data management at multiple levels:
+
+MEIL GROUP
+    |
+    +-- Subsidiary / Entity
+          |
+          +-- Business Unit
+                |
+                +-- Project
+                      |
+                      +-- Site / Location
+
+The system must allow ESG information to flow upward from operational/project level to:
+
+Project
+→ Business Unit
+→ Subsidiary
+→ Group
+→ BRSR Report
+
+The platform must avoid duplicate data entry wherever possible.
+
+Core principle:
+
+"Collect data once, validate it once, trace it completely, and reuse it across reporting requirements."
+
+============================================================
+3. PRODUCT VISION
+============================================================
+
+Build MEIL ESG360 as a centralized ESG data and reporting platform.
+
+The platform should become the single source of truth for:
+
+- ESG data
+- sustainability metrics
+- BRSR disclosures
+- BRSR Core metrics
+- policies
+- evidence
+- approvals
+- audit trails
+- calculations
+- organizational hierarchy
+- ESG targets
+- performance
+- SDG mappings
+- assurance workflows
+- reports
+
+The system should convert fragmented ESG data into:
+
+RAW DATA
+→ VERIFIED DATA
+→ CONSOLIDATED DATA
+→ ESG INSIGHTS
+→ BRSR DISCLOSURES
+→ ASSURANCE-READY REPORTING
+
+============================================================
+4. CORE PRODUCT MODULES
+============================================================
+
+Create the following major modules.
+
+MODULE 1:
+Organization Management
+
+MODULE 2:
+User & Access Management
+
+MODULE 3:
+ESG Data Collection
+
+MODULE 4:
+ESG Metric Library
+
+MODULE 5:
+Evidence & Document Management
+
+MODULE 6:
+Data Validation & Quality
+
+MODULE 7:
+Calculation Engine
+
+MODULE 8:
+ESG Workflow & Approval
+
+MODULE 9:
+Consolidation Engine
+
+MODULE 10:
+BRSR Regulatory Engine
+
+MODULE 11:
+BRSR Reporting
+
+MODULE 12:
+BRSR Core
+
+MODULE 13:
+SDG Mapping
+
+MODULE 14:
+ESG Targets & Performance
+
+MODULE 15:
+Risk & Materiality
+
+MODULE 16:
+Analytics & Dashboards
+
+MODULE 17:
+Audit & Assurance
+
+MODULE 18:
+Data Lineage
+
+MODULE 19:
+Notifications
+
+MODULE 20:
+Integrations
+
+MODULE 21:
+Administration
+
+MODULE 22:
+AI Intelligence Layer
+
+============================================================
+5. ORGANIZATION HIERARCHY
+============================================================
+
+Implement a flexible hierarchical organization model.
+
+Example:
+
+MEIL GROUP
+|
++-- Entity A
+|   |
+|   +-- Business Unit A1
+|   |   |
+|   |   +-- Project A1-P1
+|   |       |
+|   |       +-- Site A
+|   |       +-- Site B
+|   |
+|   +-- Business Unit A2
+|
++-- Entity B
+|   |
+|   +-- Business Unit B1
+|
++-- Entity C
+    |
+    +-- Business Unit C1
+
+The hierarchy must NOT be hard-coded.
+
+Create database entities for:
+
+Organization
+Legal Entity
+Subsidiary
+Business Unit
+Project
+Site
+Location
+Department
+
+A Project must support:
+
+- project code
+- project name
+- entity
+- business unit
+- country
+- state
+- city
+- site
+- project type
+- start date
+- expected end date
+- status
+- responsible person
+- ESG coordinator
+- project attributes
+
+The architecture must support approximately 250 projects and scale beyond that.
+
+============================================================
+6. USER ROLES
+============================================================
+
+Implement RBAC.
+
+Minimum roles:
+
+1. Super Admin
+2. Group ESG Admin
+3. Group ESG Head
+4. Entity ESG Manager
+5. Business Unit ESG Manager
+6. Project ESG Coordinator
+7. Data Contributor
+8. Reviewer
+9. Approver
+10. Management / Executive Viewer
+11. Internal Auditor
+12. External Assurance User
+13. Read Only User
+
+Permissions must be granular.
+
+Example:
+
+Project Data Contributor:
+- create/update assigned ESG data
+- upload evidence
+- submit data
+- view own submissions
+
+Reviewer:
+- review
+- return
+- approve/reject
+- add comments
+
+Approver:
+- final approval
+- lock reporting period
+
+Group ESG Admin:
+- manage organization
+- manage metrics
+- configure reporting periods
+- manage BRSR configuration
+- manage mappings
+- manage users
+
+External Assurance User:
+- access authorized assurance datasets
+- review evidence
+- request supporting evidence
+- add assurance observations
+- record status
+- no ability to alter source data
+
+============================================================
+7. AUTHENTICATION
+============================================================
+
+Implement:
+
+- secure login
+- email/password
+- password hashing
+- session management
+- logout
+- password reset
+- optional MFA-ready architecture
+- role-based authorization
+- account status
+- session expiry
+
+Design authentication so enterprise SSO can be added later.
+
+Do not store passwords in plaintext.
+
+============================================================
+8. MAIN APPLICATION NAVIGATION
+============================================================
+
+Create a professional enterprise navigation structure.
+
+Suggested sidebar:
+
+Dashboard
+
+Organization
+  - Group
+  - Entities
+  - Business Units
+  - Projects
+  - Sites
+
+ESG Data
+  - Data Collection
+  - My Tasks
+  - Metrics
+  - Data Quality
+  - Submissions
+
+Evidence
+  - Evidence Library
+  - Documents
+  - Policies
+  - Certificates
+
+BRSR
+  - Reporting Workspace
+  - Section A
+  - Section B
+  - Section C
+  - BRSR Core
+  - Review
+  - Report
+
+SDGs
+  - SDG Mapping
+  - SDG Performance
+
+Targets
+  - ESG Targets
+  - Progress
+  - Gaps
+
+Analytics
+  - ESG Dashboard
+  - Environmental
+  - Social
+  - Governance
+  - Project Analytics
+  - Entity Analytics
+
+Workflow
+  - Pending Review
+  - Approvals
+  - Returned Items
+
+Assurance
+  - Assurance Workspace
+  - Requests
+  - Evidence
+  - Findings
+
+Audit
+  - Audit Trail
+  - Data Lineage
+  - Change History
+
+Administration
+  - Users
+  - Roles
+  - Reporting Periods
+  - Rules
+  - BRSR Configuration
+  - Notifications
+  - System Settings
+
+============================================================
+9. EXECUTIVE DASHBOARD
+============================================================
+
+Build a real executive ESG command center.
+
+Dashboard should show:
+
+- ESG reporting completion
+- Group reporting completion %
+- Entity completion
+- Project completion
+- Pending submissions
+- Pending approvals
+- Data quality score
+- Evidence coverage
+- BRSR completion
+- BRSR Core readiness
+- assurance readiness
+- environmental KPIs
+- social KPIs
+- governance KPIs
+- ESG target progress
+- SDG contribution
+- major data gaps
+- overdue actions
+- high-risk areas
+
+Provide filters:
+
+- financial year
+- entity
+- business unit
+- project
+- region
+- ESG category
+- principle
+- metric
+
+Charts should be based on actual database data.
+
+Avoid fake charts that do not connect to backend data.
+
+============================================================
+10. ESG DATA MODEL
+============================================================
+
+Create a flexible ESG metric architecture.
+
+A metric must contain:
+
+- metric ID
+- metric code
+- metric name
+- description
+- category
+- subcategory
+- ESG dimension
+- BRSR principle
+- BRSR question
+- indicator type
+- essential/leadership
+- unit
+- frequency
+- applicable levels
+- required evidence
+- validation rules
+- calculation rule
+- source type
+- reporting boundary
+- active status
+- version
+- effective date
+
+Support dimensions:
+
+ENVIRONMENTAL
+SOCIAL
+GOVERNANCE
+
+Examples of environmental data:
+
+- electricity consumption
+- fuel consumption
+- renewable energy
+- Scope 1 emissions
+- Scope 2 emissions
+- Scope 3 where applicable
+- water withdrawal
+- water consumption
+- water discharge
+- waste generated
+- waste recycled
+- hazardous waste
+- non-hazardous waste
+- emissions
+- biodiversity-related information
+
+Examples of social data:
+
+- employees
+- workers
+- permanent employees
+- non-permanent employees
+- permanent workers
+- non-permanent workers
+- gender
+- differently abled employees/workers
+- employee turnover
+- training
+- health and safety
+- occupational incidents
+- grievances
+- human rights
+- community initiatives
+- social impact
+
+Examples of governance data:
+
+- policies
+- board oversight
+- management responsibility
+- anti-corruption
+- whistleblower
+- stakeholder engagement
+- complaints
+- cybersecurity/data breaches
+- ethical conduct
+- compliance
+
+Do not hard-code every future metric into frontend components.
+
+Use metadata-driven forms.
+
+============================================================
+11. DYNAMIC DATA COLLECTION
+============================================================
+
+Build dynamic ESG data collection forms.
+
+A user should see only the questions relevant to:
+
+- their role
+- their entity
+- their business unit
+- their project
+- reporting period
+- applicable ESG category
+- configured BRSR requirements
+
+Support:
+
+- text
+- integer
+- decimal
+- percentage
+- currency
+- date
+- dropdown
+- multi-select
+- yes/no
+- long text
+- document upload
+- table/grid
+- calculated fields
+
+Example:
+
+Electricity Consumption
+
+Input:
+- reporting period
+- entity
+- project
+- source
+- quantity
+- unit
+- evidence
+- remarks
+
+The UI should show:
+
+Current value
+Previous year
+Variance
+Unit
+Evidence status
+Validation status
+Approval status
+
+============================================================
+12. REPORTING PERIOD
+============================================================
+
+Create a first-class ReportingPeriod entity.
+
+Fields:
+
+- FY
+- start date
+- end date
+- status
+- reporting boundary
+- submission deadline
+- locked status
+- created date
+- locked by
+- locked date
+
+Statuses:
+
+DRAFT
+OPEN
+DATA_COLLECTION
+UNDER_REVIEW
+APPROVAL
+ASSURANCE
+FINALIZED
+LOCKED
+
+Prevent unauthorized modification after lock.
+
+============================================================
+13. REPORTING BOUNDARY
+============================================================
+
+Reporting boundary is critical.
+
+Support:
+
+STANDALONE
+
+and
+
+CONSOLIDATED
+
+The system must allow the selected reporting boundary to be stored explicitly for each reporting period/report.
+
+Do not allow inconsistent boundaries within a finalized report unless an authorized configuration explicitly permits it.
+
+Show warnings when a user attempts to create an inconsistent reporting boundary.
+
+Provide:
+
+Reporting Boundary Configuration
+|
++-- Standalone
++-- Consolidated
++-- Included entities
++-- Excluded entities
++-- Reason
++-- Approval
+
+The system must preserve historical boundary configurations.
+
+============================================================
+14. BRSR REGULATORY ENGINE
+============================================================
+
+Do NOT implement BRSR as a static PDF form.
+
+Build a configurable BRSR regulatory engine.
+
+Model:
+
+Framework
+Framework Version
+Section
+Principle
+Question
+Indicator
+Sub-indicator
+Response Type
+Applicability Rule
+Validation Rule
+Evidence Requirement
+Calculation Rule
+Cross Reference
+Reporting Requirement
+Version
+
+Example:
+
+Framework:
+BRSR
+
+Version:
+2024
+
+Section:
+A
+
+Question:
+13
+
+Topic:
+Reporting Boundary
+
+Section B:
+
+Management and Process Disclosures
+
+Section C:
+
+Principle-wise Performance Disclosure
+
+Principles:
+
+P1
+P2
+P3
+P4
+P5
+P6
+P7
+P8
+P9
+
+The source material describes:
+
+68 Essential Indicators
+
+39 Leadership Indicators
+
+for Section C.
+
+Build the database so that regulatory versions can be updated.
+
+============================================================
+15. BRSR SECTION A
+============================================================
+
+Implement Section A as a structured data collection/reporting module.
+
+The provided SEBI format includes areas such as:
+
+1. Details of listed entity
+2. Products/services
+3. Operations
+4. Employees
+5. Holding/subsidiary/associate companies including joint ventures
+6. CSR details
+7. Transparency and disclosures compliances
+
+Support relevant fields from the provided Annexure I.
+
+Examples:
+
+- CIN
+- entity name
+- year of incorporation
+- registered office
+- corporate address
+- email
+- telephone
+- website
+- financial year
+- stock exchanges
+- paid-up capital
+- BRSR contact person
+- reporting boundary
+
+Products/services:
+
+- main activities
+- business activity
+- turnover percentage
+- products/services
+- NIC code
+- contribution percentage
+
+Operations:
+
+- national locations
+- international locations
+- plants
+- offices
+- markets
+- exports
+- customer information
+
+Employees:
+
+- permanent
+- non-permanent
+- workers
+- gender
+- differently abled
+- board representation
+- KMP
+- turnover
+
+Holding/subsidiary/associate/JV:
+
+- entity name
+- relationship type
+- ownership
+- participation in business responsibility initiatives
+
+CSR:
+
+- applicability
+- turnover
+- net worth
+
+Complaints:
+
+- stakeholder group
+- grievance mechanism
+- complaints filed
+- complaints pending
+- remarks
+- current year
+- previous year
+
+Use structured data rather than free-form fields wherever possible.
+
+============================================================
+16. BRSR SECTION B
+============================================================
+
+Implement Section B as a policy/governance management module.
+
+Support:
+
+- policies
+- principles covered
+- board approval
+- policy links
+- procedures
+- value-chain applicability
+- codes
+- certifications
+- standards
+- policy authority
+- management responsibility
+- sustainability committee/director
+- internal assessment
+- external assessment
+- reasons for non-coverage
+
+Important:
+
+A single policy may cover multiple principles.
+
+A single principle may be covered by multiple policies.
+
+Therefore implement many-to-many mapping:
+
+Policy
+↔ Principle
+
+Do NOT create a rigid one-policy-per-principle model.
+
+============================================================
+17. BRSR SECTION C
+============================================================
+
+Implement all 9 principles.
+
+Principle 1:
+Businesses should conduct and govern themselves with integrity, and in a manner that is Ethical, Transparent and Accountable.
+
+Principle 2:
+Businesses should provide goods and services in a manner that is sustainable and safe.
+
+Principle 3:
+Businesses should respect and promote the well-being of all employees, including those in their value chains.
+
+Principle 4:
+Businesses should respect the interests of and be responsive to all its stakeholders.
+
+Principle 5:
+Businesses should respect and promote human rights.
+
+Principle 6:
+Businesses should respect and make efforts to protect and restore the environment.
+
+Principle 7:
+Businesses, when engaging in influencing public and regulatory policy, should do so in a manner that is responsible and transparent.
+
+Principle 8:
+Businesses should promote inclusive growth and equitable development.
+
+Principle 9:
+Businesses should engage with and provide value to their consumers in a responsible manner.
+
+Implement:
+
+Essential Indicators
+
+Leadership Indicators
+
+The system should identify:
+
+- mandatory/essential
+- leadership/voluntary
+- applicable/not applicable
+- completed/incomplete
+- evidence attached
+- reviewed
+- approved
+- assurance status
+
+============================================================
+18. NON-APPLICABILITY ENGINE
+============================================================
+
+A metric/question should support:
+
+Applicable
+Not Applicable
+
+If Not Applicable:
+
+require reason.
+
+Support predefined reason categories plus custom reason.
+
+Do not silently exclude non-applicable questions.
+
+Show them in compliance reports.
+
+============================================================
+19. DATA VALIDATION ENGINE
+============================================================
+
+Build a reusable validation engine.
+
+Examples:
+
+Percentage must be between 0 and 100.
+
+Female employees cannot exceed total employees.
+
+Total employees must equal permanent + non-permanent where applicable.
+
+Waste totals should reconcile with category totals where configured.
+
+Energy totals should reconcile with source-level data where configured.
+
+Current-year values must use correct reporting period.
+
+Unit must match metric definition.
+
+Mandatory evidence must exist before approval.
+
+Required fields must be completed before submission.
+
+Validation severity:
+
+INFO
+WARNING
+ERROR
+BLOCKER
+
+Only BLOCKER rules prevent submission.
+
+Show validation messages next to the relevant field.
+
+============================================================
+20. CALCULATION ENGINE
+============================================================
+
+Build configurable calculation formulas.
+
+Do not hard-code calculations directly into random frontend components.
+
+Example:
+
+Turnover Rate:
+
+(Number of persons who left employment during FY × 100)
+/
+Average relevant employee/worker population
+
+Support:
+
+- formulas
+- operands
+- units
+- conversion
+- dependencies
+- calculation version
+- calculation timestamp
+- source values
+- output value
+
+Every calculated number must be traceable to its inputs.
+
+Example:
+
+Scope 1 Emissions
+
+Fuel Consumption
++
+Emission Factor
++
+Carbon Capture where applicable
++
+Process emissions
++
+Fugitive emissions
+
+Result:
+
+Scope 1 CO2e
+
+Store:
+
+- input values
+- factors
+- formula
+- calculated result
+- calculation version
+- timestamp
+- user/system responsible
+
+============================================================
+21. UNIT CONVERSION
+============================================================
+
+Implement a centralized unit conversion service.
+
+Examples:
+
+kWh
+MWh
+GJ
+
+litres
+KL
+
+kg
+tonnes
+
+litres
+m3
+
+etc.
+
+Do not allow arbitrary silent conversions.
+
+Store:
+
+original value
+original unit
+converted value
+target unit
+conversion factor
+conversion source/version
+
+============================================================
+22. EVIDENCE MANAGEMENT
+============================================================
+
+Every important ESG data point should be capable of being supported by evidence.
+
+Evidence types:
+
+- invoice
+- utility bill
+- fuel record
+- HR report
+- payroll record
+- policy
+- certificate
+- audit report
+- inspection report
+- government document
+- contract
+- supplier document
+- photograph
+- spreadsheet
+- PDF
+- other
+
+Evidence metadata:
+
+- evidence ID
+- file name
+- type
+- reporting period
+- entity
+- project
+- metric
+- uploaded by
+- upload date
+- version
+- hash/checksum
+- status
+- expiry date
+- comments
+
+Support:
+
+Evidence
+→ Metric
+→ BRSR Question
+→ Report
+
+This creates traceability.
+
+============================================================
+23. DATA LINEAGE
+============================================================
+
+Build a visual data lineage feature.
+
+Example:
+
+SOURCE FILE
+   ↓
+RAW DATA
+   ↓
+VALIDATED DATA
+   ↓
+CALCULATION
+   ↓
+CONSOLIDATION
+   ↓
+BRSR METRIC
+   ↓
+BRSR QUESTION
+   ↓
+REPORT
+
+A user should be able to click a reported value and see:
+
+- source
+- contributor
+- date
+- evidence
+- transformations
+- calculations
+- approvals
+- consolidation
+- final report location
+
+============================================================
+24. WORKFLOW
+============================================================
+
+Implement:
+
+DRAFT
+→ SUBMITTED
+→ UNDER REVIEW
+→ RETURNED / REJECTED
+→ RESUBMITTED
+→ APPROVED
+→ LOCKED
+
+Every transition should create an audit event.
+
+Each review should support:
+
+- reviewer
+- timestamp
+- comment
+- decision
+- requested changes
+
+============================================================
+25. CONSOLIDATION ENGINE
+============================================================
+
+This is one of the most important MEIL-specific features.
+
+Support:
+
+Project → Business Unit
+
+Business Unit → Entity
+
+Entity → Group
+
+Example:
+
+Project P001:
+Energy = 10,000 kWh
+
+Project P002:
+Energy = 20,000 kWh
+
+Business Unit:
+30,000 kWh
+
+Entity:
+aggregation of business units
+
+Group:
+aggregation of applicable entities
+
+Never overwrite source data during consolidation.
+
+Store aggregation relationships.
+
+Support:
+
+- sum
+- weighted average
+- ratio
+- percentage
+- derived metric
+
+Do not simply sum metrics where aggregation would be mathematically incorrect.
+
+Each consolidated number must preserve source references.
+
+============================================================
+26. DUPLICATE DATA PREVENTION
+============================================================
+
+Prevent double counting.
+
+Example:
+
+If an entity-level number already includes projects P001, P002 and P003, the system must not automatically add the project numbers again.
+
+Create consolidation boundary definitions.
+
+Track:
+
+included source entities
+excluded source entities
+consolidation method
+consolidation version
+
+============================================================
+27. BRSR CORE
+============================================================
+
+Implement a dedicated BRSR Core module.
+
+The system should support:
+
+- Core KPI library
+- applicable KPIs
+- measurement data
+- data source
+- methodology
+- evidence
+- assurance status
+- cross-reference to BRSR
+- assurance provider
+- assurance observations
+- findings
+- remediation
+- final status
+
+The provided source material includes BRSR Core parameters such as GHG footprint and other sustainability-related KPIs.
+
+Do not invent additional regulatory KPIs.
+
+Represent the provided BRSR Core structure through configurable metadata.
+
+============================================================
+28. ASSURANCE WORKSPACE
+============================================================
+
+Build an assurance-ready workflow.
+
+Roles:
+
+Internal Reviewer
+Internal Auditor
+External Assurance Provider
+
+Features:
+
+- assurance request
+- data package
+- evidence package
+- sampling
+- evidence request
+- query
+- management response
+- finding
+- remediation
+- resolution
+- final assurance status
+
+Statuses:
+
+NOT_STARTED
+IN_PROGRESS
+EVIDENCE_REQUESTED
+UNDER_REVIEW
+QUERY_RAISED
+MANAGEMENT_RESPONSE
+RESOLVED
+ASSURANCE_COMPLETE
+
+External assurance users must NOT be able to modify original source data.
+
+============================================================
+29. AUDIT TRAIL
+============================================================
+
+Every material change must be logged.
+
+Log:
+
+WHO
+WHAT
+WHEN
+WHERE
+BEFORE
+AFTER
+WHY
+
+Examples:
+
+- metric value changed
+- evidence uploaded
+- evidence replaced
+- approval
+- rejection
+- question changed
+- policy changed
+- reporting boundary changed
+- user permission changed
+- report generated
+- report finalized
+- reporting period locked
+
+Audit logs should be immutable from the normal UI.
+
+============================================================
+30. VERSION CONTROL
+============================================================
+
+Implement versioning for:
+
+- ESG metrics
+- BRSR framework
+- questions
+- calculation formulas
+- evidence
+- policies
+- reporting boundaries
+- reports
+
+Historical reports must remain reproducible.
+
+A future BRSR framework update must not silently change an already finalized historical report.
+
+============================================================
+31. SDG MAPPING
+============================================================
+
+Build SDG mapping.
+
+Support:
+
+ESG Metric
+→ BRSR Principle
+→ SDG
+→ SDG Target
+
+The source material describes the UN Sustainable Development Goals and their relationship with sustainability reporting.
+
+Implement a configurable 17-SDG master dataset.
+
+Do not invent unsupported company-specific SDG claims.
+
+Allow:
+
+- manual mapping
+- admin-configured mapping
+- metric-level mapping
+- principle-level mapping
+
+Show SDG contribution dashboards.
+
+============================================================
+32. ESG TARGETS
+============================================================
+
+Create target management.
+
+Target fields:
+
+- target ID
+- metric
+- baseline year
+- baseline value
+- target year
+- target value
+- annual milestones
+- owner
+- entity
+- project
+- status
+- progress
+- evidence
+
+Example:
+
+Reduce energy intensity by X by FYXXXX.
+
+Do not invent actual MEIL targets.
+
+Use sample targets only in demo data and clearly label them as sample.
+
+============================================================
+33. ESG RISK AND MATERIALITY
+============================================================
+
+Build configurable ESG risk management.
+
+Risk fields:
+
+- risk
+- category
+- description
+- entity
+- project
+- likelihood
+- impact
+- inherent risk
+- controls
+- mitigation
+- residual risk
+- owner
+- due date
+- status
+
+Materiality:
+
+- issue
+- stakeholder
+- impact
+- financial relevance
+- ESG dimension
+- materiality status
+- supporting evidence
+
+============================================================
+34. PROJECT ESG MODULE
+============================================================
+
+Since MEIL has approximately 250 projects, project-level ESG must be a major feature.
+
+Project dashboard should show:
+
+- project information
+- ESG completion
+- environmental KPIs
+- safety KPIs
+- workforce
+- water
+- energy
+- emissions
+- waste
+- grievances
+- incidents
+- community activities
+- evidence
+- open actions
+- compliance status
+
+Each project should have:
+
+Project ESG Profile
+
+Project Data Collection
+
+Project Evidence
+
+Project ESG Scorecard
+
+Project Submission Status
+
+Project Approval Status
+
+============================================================
+35. BULK DATA IMPORT
+============================================================
+
+Implement Excel/CSV import.
+
+Features:
+
+- downloadable template
+- column mapping
+- validation
+- preview
+- duplicate detection
+- error report
+- import confirmation
+- import history
+
+Never import directly into final approved data.
+
+Flow:
+
+UPLOAD
+→ PARSE
+→ PREVIEW
+→ VALIDATE
+→ ERROR REPORT
+→ CONFIRM
+→ CREATE DRAFT DATA
+→ REVIEW
+→ APPROVE
+
+============================================================
+36. EXPORT
+============================================================
+
+Support:
+
+- Excel
+- CSV
+- PDF
+- JSON where useful
+
+Reports:
+
+- ESG summary
+- BRSR
+- BRSR Core
+- entity report
+- project report
+- evidence index
+- assurance package
+- audit trail
+- SDG report
+
+The BRSR report should follow the configured BRSR structure.
+
+Do not create an aesthetically beautiful report that does not correspond to the actual stored data.
+
+============================================================
+37. REPORT GENERATION
+============================================================
+
+Build a report generation engine.
+
+Architecture:
+
+DATABASE
+↓
+REPORT DATASET
+↓
+VALIDATION
+↓
+TEMPLATE
+↓
+REPORT GENERATOR
+↓
+PDF/EXCEL
+
+Store generated report metadata:
+
+- report ID
+- reporting period
+- framework version
+- boundary
+- generated by
+- generated date
+- status
+- checksum/hash
+- finalization status
+
+Once finalized, report content must remain reproducible.
+
+============================================================
+38. AI INTELLIGENCE LAYER
+============================================================
+
+AI must assist users, not silently alter compliance data.
+
+Build AI features such as:
+
+1. Document extraction
+2. ESG data extraction from uploaded documents
+3. Missing data detection
+4. Anomaly detection
+5. Natural-language ESG search
+6. ESG question assistant
+7. Explanation of metrics
+8. Report drafting assistance
+9. Evidence classification
+10. Data-quality suggestions
+
+CRITICAL AI SAFETY RULE:
+
+AI must NEVER:
+
+- fabricate ESG data
+- fabricate evidence
+- fabricate regulatory requirements
+- automatically approve data
+- silently modify verified data
+- make unsupported compliance claims
+
+Every AI-generated result must be marked:
+
+AI GENERATED / AI SUGGESTION
+
+User must review before committing it to official reporting data.
+
+For regulatory answers, show the source/reference metadata where available.
+
+============================================================
+39. DOCUMENT INTELLIGENCE
+============================================================
+
+Allow users to upload documents.
+
+AI extraction pipeline:
+
+DOCUMENT
+→ OCR/TEXT EXTRACTION
+→ CLASSIFICATION
+→ FIELD EXTRACTION
+→ CONFIDENCE
+→ USER REVIEW
+→ SAVE AS DRAFT
+
+Example:
+
+Electricity bill
+
+Extract:
+
+- billing period
+- consumption
+- unit
+- provider
+- account/reference
+- amount
+
+Do not automatically treat extracted data as verified.
+
+============================================================
+40. SEARCH
+============================================================
+
+Implement global search.
+
+Search across:
+
+- entities
+- projects
+- metrics
+- questions
+- evidence
+- policies
+- users
+- reports
+- audit logs
+
+Add filters.
+
+============================================================
+41. NOTIFICATIONS
+============================================================
+
+Support:
+
+- in-app notifications
+- email-ready notification architecture
+
+Notify for:
+
+- assigned task
+- submission
+- rejection
+- approval
+- overdue data
+- evidence request
+- assurance query
+- reporting deadline
+- expiring evidence
+- failed validation
+
+============================================================
+42. ADMINISTRATION
+============================================================
+
+Admin console should manage:
+
+- users
+- roles
+- permissions
+- entities
+- projects
+- metrics
+- units
+- formulas
+- reporting periods
+- BRSR framework
+- principles
+- questions
+- indicators
+- SDGs
+- workflows
+- notification rules
+- system configuration
+
+============================================================
+43. DATABASE
+============================================================
+
+Use PostgreSQL.
+
+Design a normalized relational schema.
+
+Minimum core tables/entities:
+
+users
+roles
+permissions
+user_roles
+organizations
+legal_entities
+subsidiaries
+business_units
+projects
+sites
+locations
+departments
+reporting_periods
+reporting_boundaries
+esg_metrics
+metric_versions
+metric_values
+metric_submissions
+metric_validations
+calculation_rules
+calculation_runs
+unit_definitions
+unit_conversions
+evidence
+evidence_links
+policies
+policy_versions
+policy_principle_mappings
+brsr_frameworks
+brsr_versions
+brsr_sections
+brsr_principles
+brsr_questions
+brsr_indicators
+brsr_responses
+brsr_mappings
+brsr_core_metrics
+brsr_core_responses
+sdgs
+sdg_targets
+metric_sdg_mappings
+esg_targets
+target_progress
+risks
+materiality_assessments
+workflow_instances
+workflow_tasks
+approvals
+comments
+audit_logs
+data_lineage
+consolidation_rules
+consolidation_runs
+consolidation_sources
+reports
+report_versions
+assurance_engagements
+assurance_requests
+assurance_findings
+notifications
+imports
+import_rows
+system_settings
+
+Use foreign keys and indexes appropriately.
+
+Use UUIDs where appropriate.
+
+Use created_at and updated_at timestamps.
+
+Implement soft deletion where appropriate.
+
+============================================================
+44. DATA SECURITY
+============================================================
+
+Implement enterprise security principles.
+
+Requirements:
+
+- password hashing
+- secure cookies/session handling
+- CSRF protection where applicable
+- input validation
+- server-side authorization
+- SQL injection protection
+- XSS protection
+- secure file handling
+- file type validation
+- file size limits
+- access-controlled evidence
+- audit logging
+- rate limiting
+- secure secrets handling
+- environment variables
+- no secrets in source code
+
+Do not expose sensitive database information through API responses.
+
+============================================================
+45. MULTI-TENANT-READY ARCHITECTURE
+============================================================
+
+Although the initial implementation is for MEIL, design the architecture so that the platform can eventually support multiple organizations.
+
+Use a tenant-aware architecture.
+
+Every major business record should be traceable to a tenant/organization.
+
+Do not compromise the MEIL-specific organization hierarchy.
+
+============================================================
+46. API ARCHITECTURE
+============================================================
+
+Build clean backend APIs.
+
+Organize APIs by domain:
+
+/auth
+/users
+/roles
+/organizations
+/entities
+/business-units
+/projects
+/sites
+/reporting-periods
+/metrics
+/esg-data
+/evidence
+/workflows
+/brsr
+/brsr-core
+/sdgs
+/targets
+/risks
+/analytics
+/assurance
+/audit
+/reports
+/imports
+/notifications
+/admin
+
+Use consistent:
+
+- request validation
+- error responses
+- authentication
+- authorization
+- pagination
+- filtering
+- sorting
+
+============================================================
+47. FRONTEND
+============================================================
+
+Build a polished enterprise UI.
+
+Preferred stack:
+
+React + TypeScript
+
+Use a modern component system.
+
+Design language:
+
+- enterprise
+- professional
+- clean
+- trustworthy
+- data-rich
+- minimal clutter
+- responsive
+- accessible
+
+Do NOT make it look like a generic AI dashboard.
+
+Use clear hierarchy.
+
+Use cards only where useful.
+
+Use tables for operational data.
+
+Use charts for trends.
+
+Use side panels/modals for detailed review.
+
+============================================================
+48. DESIGN SYSTEM
+============================================================
+
+Create consistent:
+
+- typography
+- spacing
+- buttons
+- forms
+- tables
+- badges
+- alerts
+- status indicators
+- modal
+- drawer
+- tabs
+- breadcrumbs
+- charts
+- empty states
+- loading states
+- error states
+
+Statuses should be visually distinguishable.
+
+Examples:
+
+Draft
+Submitted
+Under Review
+Approved
+Rejected
+Locked
+Not Applicable
+Needs Evidence
+Validation Error
+Assurance Query
+
+============================================================
+49. RESPONSIVE DESIGN
+============================================================
+
+The application should work on:
+
+Desktop
+Laptop
+Tablet
+
+Prioritize enterprise desktop experience.
+
+Do not sacrifice usability for decorative mobile layouts.
+
+============================================================
+50. DASHBOARD DRILL-DOWN
+============================================================
+
+All important dashboard values should be clickable.
+
+Example:
+
+Group ESG Completion: 84%
+
+Click
+
+→ Entity breakdown
+
+Click entity
+
+→ Business unit breakdown
+
+Click business unit
+
+→ Project breakdown
+
+Click project
+
+→ metric breakdown
+
+Click metric
+
+→ source data
+
+Click source data
+
+→ evidence
+
+This is a critical product feature.
+
+============================================================
+51. ESG SCORE
+============================================================
+
+Do NOT invent a regulatory "ESG score" and present it as official.
+
+If a product-level readiness/completeness score is implemented, explicitly name it something like:
+
+ESG Reporting Readiness
+
+or
+
+Data Quality Score
+
+or
+
+BRSR Completion Score
+
+Clearly explain the methodology.
+
+Do not claim that it represents an official SEBI ESG rating.
+
+============================================================
+52. DATA QUALITY DASHBOARD
+============================================================
+
+Show:
+
+- completeness
+- validation errors
+- missing evidence
+- inconsistent values
+- duplicate records
+- stale data
+- pending approvals
+- unusual variance
+- unresolved queries
+
+Example:
+
+Data Quality
+92%
+
+Completeness: 95%
+Validation: 91%
+Evidence: 89%
+Approval: 93%
+
+These values must come from real database calculations.
+
+============================================================
+53. REPORTING READINESS
+============================================================
+
+Create:
+
+BRSR Readiness Dashboard
+
+Show:
+
+Section A
+Completed / Total
+
+Section B
+Completed / Total
+
+Section C
+Essential
+Completed / Total
+
+Leadership
+Completed / Total
+
+BRSR Core
+Ready / Not Ready
+
+Evidence
+Available / Missing
+
+Approval
+Approved / Pending
+
+Assurance
+Ready / Pending
+
+============================================================
+54. AUDITOR / ASSURANCE VIEW
+============================================================
+
+Create a dedicated simplified assurance interface.
+
+Auditor sees:
+
+Engagement
+|
++-- Scope
++-- Metrics
++-- Evidence
++-- Queries
++-- Findings
++-- Responses
++-- Status
++-- Finalization
+
+Allow filtering by:
+
+- BRSR question
+- KPI
+- entity
+- project
+- evidence status
+- assurance status
+
+============================================================
+55. DEMO DATA
+============================================================
+
+Create realistic sample MEIL-like demo data.
+
+Do NOT use real confidential MEIL information.
+
+Create fictional entities:
+
+MEIL Infrastructure Division
+MEIL Energy Division
+MEIL Manufacturing Division
+
+Create fictional subsidiaries.
+
+Create approximately:
+
+10 sample projects
+
+with different:
+
+- states
+- countries
+- business units
+- ESG data
+- workforce
+- energy
+- water
+- waste
+- safety
+- evidence
+
+Clearly label demo data as:
+
+DEMO DATA
+
+Do not represent demo values as actual MEIL disclosures.
+
+============================================================
+56. SEED DATA
+============================================================
+
+Seed:
+
+- roles
+- permissions
+- sample users
+- sample organization hierarchy
+- reporting period
+- ESG metrics
+- BRSR sections
+- 9 principles
+- BRSR questions/indicators from the supplied framework data where available
+- sample evidence
+- sample policies
+- SDGs
+- workflow configuration
+
+============================================================
+57. TESTING
+============================================================
+
+Implement tests for:
+
+- authentication
+- authorization
+- organization hierarchy
+- data submission
+- validation
+- calculations
+- consolidation
+- BRSR mapping
+- report generation
+- audit logging
+- evidence access
+- workflow transitions
+
+Test edge cases.
+
+Example:
+
+A project contributor must not access another project's confidential data.
+
+A reviewer must not approve data outside their scope.
+
+A locked reporting period must reject unauthorized edits.
+
+A finalized report must remain reproducible.
+
+============================================================
+58. ERROR HANDLING
+============================================================
+
+Build proper error handling.
+
+Never show raw stack traces to users.
+
+Create user-friendly messages.
+
+Backend logs should contain technical diagnostics.
+
+Frontend should show:
+
+What happened
+Why it happened
+What action the user can take
+
+============================================================
+59. PERFORMANCE
+============================================================
+
+Design for:
+
+thousands of metrics
+hundreds of projects
+multiple entities
+multiple reporting periods
+large evidence libraries
+
+Use:
+
+pagination
+lazy loading
+database indexes
+background jobs where appropriate
+caching where useful
+efficient queries
+
+Do not load the entire ESG database into the browser.
+
+============================================================
+60. FILE STORAGE
+============================================================
+
+Separate:
+
+Database metadata
+
+from
+
+Binary file storage.
+
+Evidence files should not be stored directly inside large database blobs unless there is a strong architectural reason.
+
+Create an abstraction layer so cloud object storage can be introduced later.
+
+============================================================
+61. OBSERVABILITY
+============================================================
+
+Implement production-ready foundations for:
+
+- application logs
+- error logs
+- API logs
+- audit logs
+- health check
+- database health
+- job status
+
+Create:
+
+/health
+
+endpoint.
+
+============================================================
+62. DEPLOYMENT
+============================================================
+
+The project must be deployable.
+
+Provide:
+
+- environment variables
+- database migration
+- seed script
+- build command
+- start command
+- development command
+- production configuration
+- README
+- architecture documentation
+
+Never hard-code secrets.
+
+============================================================
+63. PROJECT STRUCTURE
+============================================================
+
+Use a clean scalable project structure.
+
+Example:
+
+/app
+/components
+/features
+/modules
+/lib
+/api
+/db
+/models
+/services
+/validators
+/workflows
+/calculations
+/brsr
+/ai
+/reports
+/storage
+/tests
+/scripts
+/docs
+
+Adapt according to the selected framework.
+
+Do not create a giant monolithic frontend file.
+
+Do not put all backend logic into one server file.
+
+============================================================
+64. DOCUMENTATION
+============================================================
+
+Create:
+
+README.md
+
+ARCHITECTURE.md
+
+DATABASE.md
+
+API.md
+
+SECURITY.md
+
+BRSR_IMPLEMENTATION.md
+
+DEPLOYMENT.md
+
+AI_GOVERNANCE.md
+
+TESTING.md
+
+Also document important architectural decisions.
+
+============================================================
+65. IMPORTANT DOMAIN PRINCIPLE
+============================================================
+
+The product must separate:
+
+RAW DATA
+
+VERIFIED DATA
+
+CALCULATED DATA
+
+CONSOLIDATED DATA
+
+REPORTED DATA
+
+FINALIZED DATA
+
+These states must be distinguishable.
+
+Never overwrite historical source values just because a calculated/reporting value changed.
+
+============================================================
+66. REGULATORY VERSIONING
+============================================================
+
+Build the system so that:
+
+BRSR 2024
+
+can coexist with future BRSR versions.
+
+Do not write:
+
+if question == "Q7"
+
+throughout the codebase.
+
+Instead use:
+
+framework_id
+framework_version
+section_id
+question_id
+indicator_id
+mapping_id
+
+This is critical.
+
+============================================================
+67. CROSS-REFERENCE SUPPORT
+============================================================
+
+The provided BRSR guidance supports cross-referencing information that is already disclosed in other accepted reporting frameworks or annual reports.
+
+Implement:
+
+Cross Reference
+
+Fields:
+
+- source framework
+- source document
+- page number
+- section
+- URL/reference
+- notes
+- verification status
+
+Allow a BRSR response to point to an existing disclosure instead of unnecessarily duplicating information.
+
+============================================================
+68. POLICY MANAGEMENT
+============================================================
+
+Policy management must support:
+
+- policy
+- owner
+- version
+- approval
+- effective date
+- expiry/review date
+- document
+- principles covered
+- entities covered
+- value-chain applicability
+- status
+
+Policy lifecycle:
+
+DRAFT
+→ REVIEW
+→ APPROVED
+→ ACTIVE
+→ EXPIRED
+→ ARCHIVED
+
+============================================================
+69. VALUE CHAIN
+============================================================
+
+The BRSR FAQ material discusses value-chain partners.
+
+Create a configurable value-chain module.
+
+Entities:
+
+Supplier
+Vendor
+Contractor
+Customer
+Distributor
+Other Value Chain Partner
+
+Support:
+
+- relationship type
+- entity
+- category
+- ESG data
+- evidence
+- policy coverage
+- assessment
+- risk
+- status
+
+Do not assume that every value-chain partner is subject to identical reporting requirements.
+
+Make applicability configurable according to the relevant framework/version.
+
+============================================================
+70. PROJECT AND CONTRACTOR DATA
+============================================================
+
+Because this is an infrastructure-company product, contractor/workforce information must be supported.
+
+Support:
+
+- contractor
+- workforce category
+- workers
+- safety
+- training
+- incidents
+- working hours where applicable
+- welfare
+- compliance evidence
+
+Do not assume every project has identical data requirements.
+
+============================================================
+71. OFFLINE / BULK OPERATIONS
+============================================================
+
+Where practical, support draft data entry and later synchronization/import.
+
+For field/project environments with unreliable connectivity:
+
+- allow downloadable templates
+- support batch upload
+- preserve timestamps
+- validate after synchronization
+- detect duplicates/conflicts
+
+Do not pretend to implement full offline sync unless actually implemented.
+
+============================================================
+72. AI GOVERNANCE
+============================================================
+
+Every AI feature must have:
+
+- confidence score where appropriate
+- source/reference
+- generated timestamp
+- model metadata where appropriate
+- human review status
+
+AI outputs must be auditable.
+
+============================================================
+73. NO FAKE FEATURES
+============================================================
+
+This is extremely important.
+
+Do NOT create UI buttons that do nothing.
+
+Do NOT create fake AI chatbots that return hard-coded responses.
+
+Do NOT create fake charts.
+
+Do NOT create fake report downloads.
+
+Do NOT create fake database persistence.
+
+Do NOT claim a feature works if it is only visually implemented.
+
+If a feature cannot be fully implemented in the current environment:
+
+1. build the correct architecture
+2. implement the functional core
+3. clearly mark the remaining integration point
+4. document it
+
+Never hide limitations.
+
+============================================================
+74. NO FAKE COMPLIANCE
+============================================================
+
+Do NOT claim:
+
+"SEBI Certified"
+
+"SEBI Approved"
+
+"100% BRSR Compliant"
+
+"Official SEBI Platform"
+
+unless such status actually exists.
+
+The application should be described as:
+
+"ESG and BRSR reporting management platform"
+
+and compliance should be described as:
+
+"designed to support BRSR reporting requirements based on the configured regulatory framework."
+
+============================================================
+75. PRODUCT WORKFLOW
+============================================================
+
+Overall workflow:
+
+ADMIN CONFIGURATION
+        ↓
+ORGANIZATION SETUP
+        ↓
+USERS & ROLES
+        ↓
+REPORTING PERIOD
+        ↓
+BRSR FRAMEWORK CONFIGURATION
+        ↓
+METRIC ASSIGNMENT
+        ↓
+DATA COLLECTION
+        ↓
+EVIDENCE UPLOAD
+        ↓
+VALIDATION
+        ↓
+REVIEW
+        ↓
+APPROVAL
+        ↓
+CONSOLIDATION
+        ↓
+BRSR MAPPING
+        ↓
+BRSR CORE
+        ↓
+ASSURANCE
+        ↓
+FINALIZATION
+        ↓
+REPORT GENERATION
+        ↓
+AUDITABLE ARCHIVE
+
+============================================================
+76. PRODUCT UX FLOW
+============================================================
+
+Example user journey:
+
+LOGIN
+
+→ Executive Dashboard
+
+→ Select FY
+
+→ Select Entity
+
+→ Select Business Unit
+
+→ Select Project
+
+→ ESG Data
+
+→ Environmental
+
+→ Energy
+
+→ Enter data
+
+→ Upload evidence
+
+→ Run validation
+
+→ Submit
+
+→ Reviewer receives task
+
+→ Reviewer reviews
+
+→ Approves
+
+→ Consolidation engine updates entity totals
+
+→ BRSR mapping updates
+
+→ Reporting dashboard updates
+
+→ Final report generated
+
+Every step must be persisted.
+
+============================================================
+77. LANDING / LOGIN EXPERIENCE
+============================================================
+
+Create a professional enterprise login screen.
+
+Brand:
+
+MEIL ESG360
+
+Subtitle:
+
+Enterprise ESG & BRSR Reporting Platform
+
+Do not use actual MEIL logos unless provided/authorized.
+
+============================================================
+78. FIRST LOGIN EXPERIENCE
+============================================================
+
+After login:
+
+Show organization context.
+
+Example:
+
+MEIL Group
+FY 2025-26
+
+Reporting Status:
+82%
+
+Tasks:
+12
+
+Pending Review:
+8
+
+Evidence Required:
+14
+
+BRSR Readiness:
+76%
+
+============================================================
+79. PROJECT DASHBOARD EXPERIENCE
+============================================================
+
+Example:
+
+Project:
+Solar Infrastructure Project - Demo
+
+Location:
+Rajasthan, India
+
+Status:
+Active
+
+ESG Completion:
+88%
+
+Cards:
+
+Energy
+Water
+Emissions
+Waste
+Safety
+Workforce
+Community
+Governance
+
+Show:
+
+Data Status
+Evidence Status
+Approval Status
+
+============================================================
+80. BRSR WORKSPACE
+============================================================
+
+Build a professional BRSR workspace.
+
+Header:
+
+BRSR Reporting Workspace
+
+FY 2025-26
+
+Boundary:
+Consolidated
+
+Progress:
+
+Section A 95%
+Section B 82%
+Section C 76%
+
+BRSR Core 71%
+
+Actions:
+
+Continue Reporting
+Review Issues
+Evidence Gaps
+Generate Draft
+Assurance Workspace
+
+============================================================
+81. QUESTION DETAIL PAGE
+============================================================
+
+Every BRSR question should have:
+
+Question ID
+Question text
+Requirement type
+Principle
+Indicator
+Applicability
+Response
+Evidence
+Cross-reference
+Validation
+Reviewer comments
+Approval
+Audit trail
+
+Side panel:
+
+Data Lineage
+
+============================================================
+82. REPORT REVIEW
+============================================================
+
+Before finalization:
+
+Run pre-finalization checks.
+
+Check:
+
+- missing mandatory data
+- validation errors
+- missing evidence
+- unresolved approvals
+- unresolved assurance queries
+- reporting boundary
+- calculation errors
+- consolidation errors
+- missing responses
+- version mismatch
+
+Show:
+
+READY FOR FINALIZATION
+
+or
+
+X ISSUES REQUIRE ATTENTION
+
+============================================================
+83. FINALIZATION
+============================================================
+
+Finalization must require appropriate authorization.
+
+After finalization:
+
+- create immutable report version
+- store framework version
+- store reporting period
+- store boundary
+- store dataset version
+- store calculation versions
+- store evidence references
+- generate hash/checksum where practical
+
+============================================================
+84. ARCHITECTURAL LAYERS
+============================================================
+
+Use clear architecture:
+
+PRESENTATION LAYER
+
+↓ 
+
+API / APPLICATION LAYER
+
+↓
+
+DOMAIN SERVICES
+
+↓
+
+DATA ACCESS LAYER
+
+↓
+
+DATABASE / OBJECT STORAGE
+
+Supporting services:
+
+- authentication
+- workflow
+- calculation
+- validation
+- reporting
+- AI
+- notifications
+- audit
+- search
+
+============================================================
+85. BUILD STRATEGY
+============================================================
+
+DO NOT attempt to generate everything blindly in one pass.
+
+Follow this sequence:
+
+PHASE 1
+Project setup
+Database
+Authentication
+RBAC
+Organization hierarchy
+
+PHASE 2
+ESG metric engine
+Data collection
+Validation
+Evidence
+
+PHASE 3
+Workflow
+Approval
+Audit trail
+Data lineage
+
+PHASE 4
+BRSR framework
+Section A
+Section B
+Section C
+9 principles
+Essential/Leadership indicators
+
+PHASE 5
+Consolidation
+Calculations
+BRSR Core
+SDG mapping
+
+PHASE 6
+Dashboards
+Analytics
+Reports
+PDF/Excel
+
+PHASE 7
+Assurance
+AI
+Document intelligence
+
+PHASE 8
+Testing
+Security hardening
+Performance
+Documentation
+Deployment
+
+After each phase:
+
+- run tests
+- verify database
+- verify APIs
+- verify UI
+- fix errors
+- continue only when stable
+
+============================================================
+86. IMPLEMENTATION PRIORITY
+============================================================
+
+Priority 1:
+
+Functional end-to-end ESG data flow.
+
+Priority 2:
+
+BRSR reporting.
+
+Priority 3:
+
+Organization hierarchy and consolidation.
+
+Priority 4:
+
+Evidence and auditability.
+
+Priority 5:
+
+BRSR Core and assurance.
+
+Priority 6:
+
+Analytics.
+
+Priority 7:
+
+AI intelligence.
+
+Do not sacrifice core correctness for flashy AI features.
+
+============================================================
+87. ACCEPTANCE CRITERIA
+============================================================
+
+The product is considered functional only if a complete journey works:
+
+1. Login
+2. User authorization
+3. Organization selection
+4. Reporting period selection
+5. Project selection
+6. ESG metric entry
+7. Evidence upload
+8. Validation
+9. Submission
+10. Review
+11. Approval
+12. Consolidation
+13. BRSR mapping
+14. BRSR readiness update
+15. Report generation
+16. Audit trail
+
+All data must persist after refresh.
+
+============================================================
+88. DEMONSTRATION SCENARIO
+============================================================
+
+Prepare an end-to-end demo scenario.
+
+Example:
+
+Group:
+MEIL Group Demo
+
+Entity:
+MEIL Infrastructure Demo
+
+Business Unit:
+Renewable Infrastructure
+
+Project:
+Solar Project Rajasthan Demo
+
+User:
+Project ESG Coordinator
+
+Process:
+
+Coordinator logs in
+
+→ opens project
+
+→ enters electricity consumption
+
+→ enters diesel consumption
+
+→ enters water consumption
+
+→ enters waste data
+
+→ enters workforce data
+
+→ uploads evidence
+
+→ validation runs
+
+→ submits
+
+Reviewer receives notification
+
+→ reviewer opens submission
+
+→ checks evidence
+
+→ approves
+
+Consolidation engine updates BU/entity/group values
+
+BRSR mapping updates
+
+Dashboard changes
+
+BRSR workspace reflects completion
+
+Draft BRSR report generated
+
+This entire workflow must actually work.
+
+============================================================
+89. FINAL PRODUCT QUALITY
+============================================================
+
+The final application must feel like an enterprise product.
+
+It must NOT feel like:
+
+- a college project
+- a static dashboard
+- a template
+- a UI mockup
+- a collection of unrelated pages
+
+It should feel like a real ESG operations platform.
+
+Focus on:
+
+accuracy
+traceability
+security
+data integrity
+usability
+scalability
+maintainability
+auditability
+regulatory configurability
+
+============================================================
+90. BEFORE CODING
+============================================================
+
+Before implementing major features:
+
+1. Inspect the repository.
+2. Inspect existing files.
+3. Identify current framework.
+4. Create architecture plan.
+5. Create database schema plan.
+6. Create module dependency plan.
+7. Identify reusable components.
+8. Identify risks.
+9. Then start implementation.
+
+Do not destroy existing working functionality unnecessarily.
+
+============================================================
+91. REQUIRED FINAL OUTPUT
+============================================================
+
+When implementation is complete, provide:
+
+1. Working application
+2. Database schema
+3. Seed data
+4. Authentication
+5. RBAC
+6. ESG data module
+7. Evidence module
+8. Validation engine
+9. Workflow
+10. Consolidation engine
+11. BRSR module
+12. BRSR Core
+13. SDG mapping
+14. Dashboards
+15. Report generation
+16. Assurance workspace
+17. Audit trail
+18. Data lineage
+19. AI layer
+20. Documentation
+21. Tests
+22. Deployment instructions
+
+============================================================
+92. FINAL RULE
+============================================================
+
+Think like you are building this for a large infrastructure enterprise, not for a 48-hour competition.
+
+The competition is only the entry point.
+
+The architecture must be capable of evolving into a real commercial ESG/BRSR platform.
+
+When making decisions, prioritize:
+
+CORRECTNESS
+over
+COMPLEXITY
+
+TRACEABILITY
+over
+DECORATION
+
+REAL FUNCTIONALITY
+over
+FAKE FEATURES
+
+CONFIGURABILITY
+over
+HARDCODING
+
+DATA INTEGRITY
+over
+SHORTCUTS
+
+SECURITY
+over
+CONVENIENCE
+
+AND MOST IMPORTANTLY:
+
+DO NOT FABRICATE REGULATORY REQUIREMENTS, ESG DATA, EVIDENCE, COMPLIANCE STATUS OR MEIL FACTS.
+
+Use the supplied BRSR source documents as the domain foundation.
+
+Build the product incrementally.
+
+Test continuously.
+
+Document architectural decisions.
+
+At the end, provide a concise implementation summary including:
+
+- architecture
+- technology stack
+- modules
+- database
+- completed functionality
+- remaining limitations
+- how to run
+- how to deploy
+- demo credentials
+- test results
